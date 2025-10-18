@@ -1,10 +1,13 @@
 import numpy as np
 
-"""
-	Function representing the ODE dy/dt = f(t, y).
-"""
+
+# Function representing the ODE dy/dt = f(t, y).
 def func_f(t, y):
-	return (np.log(t + 1) - y) / (t + 1)
+	return ((1 / (t + 1)) - y) / (t + 1)
+
+# Analytical solution for comparison.
+def analytical_solution(t):
+	return (np.log(t + 1) + 1) / (t + 1)
 
 def explicit_euler(h, f):
 	"""Explicit Euler method for solving ODEs.
@@ -17,11 +20,11 @@ def explicit_euler(h, f):
 		y_values (np.ndarray): Array of solution values at corresponding time values.
 	"""
 	t_values = np.arange(0, 1 + h, h)
-	#np.arange is used to create an array of time values from 0 to 1 (inclusive) with a step size of h.
+	# np.arange is used to create an array of time values from 0 to 1 (inclusive) with a step size of h.
 	y_values = np.zeros(len(t_values))
 	# np.zeros initializes an array of zeros to store the solution values.
 	# Initial condition
-	y_values[0] = 0
+	y_values[0] = 1
 
 	"""
 	for loop to iterate over each time step and apply the Explicit Euler formula.
@@ -44,18 +47,32 @@ if __name__ == "__main__":
 	"""
 
 	# loop to print the results
+	# zip is used to iterate over both t_values and y_values simultaneously.
 	for t, y in zip(t_values, y_values):
 		print(f"t: {t:.2f}, y: {y:.6f}")
-	
+
+	# Error at t=1
+	print("\nError at t=1:")
+	print("=============")
+	error_h1 = abs(y_values[-1] - analytical_solution(1))
+	print(f"h = 0.2: Error = {error_h1:.6f}")
+
 	print("\nSolution with h = 0.1:")
 	print("======================")
 	h = 0.1
-	t_values, y_values = explicit_euler(h, func_f)
+	t_values1, y_values1 = explicit_euler(h, func_f)
 	"""
 	explicit_euler function is called with step size h = 0.1 and the function func_f.
 	The returned t_values and y_values are stored in respective variables.
 	"""
 
 	# loop to print the results
-	for t, y in zip(t_values, y_values):
+	# zip is used to iterate over both t_values and y_values simultaneously.
+	for t, y in zip(t_values1, y_values1):
 		print(f"t: {t:.2f}, y: {y:.6f}")
+	
+	# Error at t=1
+	print("\nError at t=1:")
+	print("=============")
+	error_h2 = abs(y_values1[-1] - analytical_solution(1))
+	print(f"h = 0.1: Error = {error_h2:.6f}")
