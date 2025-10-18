@@ -30,7 +30,7 @@ def explicit_euler(h, f):
 	for i in range(1, len(t_values)):
 		t = t_values[i - 1]
 		y = y_values[i - 1]
-		y_values[i] = y + h * func_f(t, y)
+		y_values[i] = y + h * f(t, y)
 
 	return t_values, y_values
 if __name__ == "__main__":
@@ -38,6 +38,10 @@ if __name__ == "__main__":
 	print("======================")
 	h = 0.2
 	t_values, y_values = explicit_euler(h, func_f)
+	"""
+	explicit_euler function is called with step size h = 0.2 and the function func_f.
+	The returned t_values and y_values are stored in respective variables.
+	"""
 
 	# loop to print the results
 	for t, y in zip(t_values, y_values):
@@ -47,6 +51,10 @@ if __name__ == "__main__":
 	print("======================")
 	h = 0.1
 	t_values, y_values = explicit_euler(h, func_f)
+	"""
+	explicit_euler function is called with step size h = 0.1 and the function func_f.
+	The returned t_values and y_values are stored in respective variables.
+	"""
 
 	# loop to print the results
 	for t, y in zip(t_values, y_values):
