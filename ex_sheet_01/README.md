@@ -51,14 +51,13 @@ pip install numpy
 
 ### Running the Code
 ```bash
-python euler_method.py
+python3 explicit_euler.py
 ```
 
-## 📁 Project Structure
+## � Project Structure
 ```
-euler_method/
-├── euler_method.py
-├── requirements.txt
+ex_sheet_01/
+├── explicit_euler.py
 └── README.md
 ```
 
@@ -74,6 +73,7 @@ euler_method/
 1. **Convergence**: The method shows first-order convergence as expected
 2. **Accuracy**: Smaller step sizes provide more accurate solutions
 3. **Efficiency**: Trade-off between computational cost (more steps) and accuracy
+4. The script prints the error ratio E(h=0.2)/E(h=0.1) and an estimated order p, which should be close to 1 for Euler's method.
 
 ## 👤 Author
 Javokhir Kubaev
