@@ -97,7 +97,7 @@ if __name__ == "__main__":
 		t = np.asarray(t, dtype=float)
 		return K / (1.0 + ((K - y0) / y0) * np.exp(-g * t))
 
-	# Example Butcher tableau: Classical RK4 (replace with your Exercise 2 tableau as needed)
+	# Example Butcher tableau: Classical RK4 (this butcher tableau is based on exercise 2)
 	A_rk4 = np.array([
 		[0.0, 0.0, 0.0, 0.0],
 		[0.5, 0.0, 0.0, 0.0],
