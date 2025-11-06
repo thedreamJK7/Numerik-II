@@ -1,6 +1,5 @@
 import numpy as np
 
-
 # Function representing the ODE dy/dt = f(t, y).
 def func_f(t, y):
 	return ((1 / (t + 1)) - y) / (t + 1)
