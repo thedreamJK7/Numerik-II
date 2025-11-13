@@ -43,7 +43,6 @@ if __name__ == "__main__":
 	y0_vec = np.array([0.0, 1.0])
 	I = (0.0, 20.0)
 	hs = [0.5, 0.25, 0.125, 0.0625]
-	href = 2.0**-14
 
 	A_rk4 = np.array([
 		[0.0, 0.0, 0.0, 0.0],
@@ -56,7 +55,7 @@ if __name__ == "__main__":
 	for h in hs:
 		T, Y = runge_kutta_ex(f, y0_vec, I, h, b_rk4, A_rk4)
 		results.append((T, Y))
-
+	
 	fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8), sharex=True)
 	for i, (T, Y) in enumerate(results):
 		ax1.plot(T, Y[:, 0], label=f'h={hs[i]}')
