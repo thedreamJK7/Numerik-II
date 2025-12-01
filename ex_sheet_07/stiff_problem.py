@@ -2,22 +2,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # 1. f(t, y) funksiyasini aniqlash
-# Mashqda: y'(t) = -λ*y(t) - e^(-t) - e^(-t)
-# Ehtimol ikkinchi minus aslida plus bo'lishi kerak:
-# y'(t) = -λ*y(t) + e^(-t) - e^(-t) = -λ*y(t)
-# Agar shunday bo'lsa, aniq yechim faqat λ=1 da to'g'ri.
-#
-# Yoki: y'(t) = -λ*y(t) - e^(-t) + e^(-t) = -λ*y(t)
-# Bu ham λ=1 da ishlaydi.
-#
-# Eng mantiqiy variant: y'(t) = -λ*(y - e^(-t)) - e^(-t)
-# Bu y=e^(-t) ni aniq yechim qiladi barcha λ uchun!
-# Tekshirish: y'=-e^(-t), y-e^(-t)=0, demak: -e^(-t) = -λ*0 - e^(-t) ✓
+# ODE (from problem statement): y'(t) = -λ(y(t) - e^(-t)) - e^(-t), y(0) = 1
 def f(t, y, lam):
     return -lam * (y - np.exp(-t)) - np.exp(-t)
 
 # 2. Aniq yechim
-def exact_solution(t):
+# From problem statement: y(t) = e^(-t) for all λ ∈ ℝ
+def exact_solution(t, lam):
     return np.exp(-t)
 
 # 3. Har bir usulni implement qilish
@@ -98,11 +89,13 @@ if __name__ == "__main__":
 	print("-" * 60)
 	
 	results = {}
+	# Exact solution is the same for all λ: y(t) = e^(-t)
+	exact_vals = exact_solution(t_grid, lam=1)  # lam doesn't matter
+	
 	for name, method in methods.items():
 		errors_for_method = []
 		for lam in lambdas:
 			numerical_vals = method(f, y0, t_grid, lam)
-			exact_vals = exact_solution(t_grid)
 			error = compute_max_error(numerical_vals, exact_vals)
 			errors_for_method.append(error)
 			results[(name, lam)] = numerical_vals
@@ -112,8 +105,8 @@ if __name__ == "__main__":
 	for lam in lambdas:
 		fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
 		
-		# Aniq yechim
-		exact_vals = exact_solution(t_grid)
+		# Aniq yechim (same for all λ)
+		exact_vals = exact_solution(t_grid, lam=1)
 		
 		# LEFT PLOT: Normal scale
 		ax1.plot(t_grid, exact_vals, 'k-', linewidth=2, label='Exact Solution', zorder=10)
