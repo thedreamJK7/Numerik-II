@@ -7,7 +7,6 @@ A_rk4 = np.array([
 	[0.0, 0.5, 0.0, 0.0],
 	[0.0, 0.0, 1.0, 0.0],
 ])
-
 c_rk4 = np.array([0.0, 0.5, 0.5, 1.0])  # Time offsets
 b_rk4 = np.array([1.0/6, 1.0/3, 1.0/3, 1.0/6])
 b_rk3 = np.array([1.0/6, 2.0/3, 0.0, 1.0/6])
@@ -104,7 +103,6 @@ if __name__ == "__main__":
 		ax2.grid(True, alpha=0.3, which='both')
 		
 	plt.tight_layout()
-	plt.savefig('ex_sheet_07/solution_comparison.png', dpi=150)
 	plt.show()
 		
 
