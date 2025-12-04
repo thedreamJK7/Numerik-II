@@ -8,7 +8,7 @@ def f(t, y, lam):
 
 # 2. Aniq yechim
 # From problem statement: y(t) = e^(-t) for all λ ∈ ℝ
-def exact_solution(t, lam):
+def exact_solution(t):
     return np.exp(-t)
 
 # 3. Har bir usulni implement qilish
@@ -90,7 +90,7 @@ if __name__ == "__main__":
 	
 	results = {}
 	# Exact solution is the same for all λ: y(t) = e^(-t)
-	exact_vals = exact_solution(t_grid, lam=1)  # lam doesn't matter
+	exact_vals = exact_solution(t_grid)  # lam doesn't matter
 	
 	for name, method in methods.items():
 		errors_for_method = []
@@ -106,7 +106,7 @@ if __name__ == "__main__":
 		fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
 		
 		# Aniq yechim (same for all λ)
-		exact_vals = exact_solution(t_grid, lam=1)
+		exact_vals = exact_solution(t_grid)
 		
 		# LEFT PLOT: Normal scale
 		ax1.plot(t_grid, exact_vals, 'k-', linewidth=2, label='Exact Solution', zorder=10)
