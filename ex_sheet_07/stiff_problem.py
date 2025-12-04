@@ -154,10 +154,6 @@ if __name__ == "__main__":
 		ax2.legend(loc='best')
 		ax2.grid(True, alpha=0.3, which='both')
 		
-		plt.tight_layout()
-		plt.savefig(f'solution_lambda_{lam}.png', dpi=150)
-		print(f"\nGrafik saqlandi: solution_lambda_{lam}.png")
-	
 	plt.show()
 	
 	# c) Tahlil

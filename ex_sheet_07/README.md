@@ -1,139 +1,112 @@
-# Stiff Problem - Roadmap va Tushuntirish
+# Exercise Sheet 7 - Stiff Problems
 
-## Problem haqida qisqacha
+## Vazifalar (Tasks)
 
-Bizda oddiy differensial tenglama (ODE) bor:
+### Exercise 1: Stiff Problem Analysis ✅
+**Fayl:** `stiff_problem.py`
+
+**Maqsad:** Quyidagi stiff ODE ni turli usullar bilan yechish:
+- ODE: `y'(t) = -λ(y(t) - e^(-t)) - e^(-t)`, `y(0) = 1`
+- Aniq yechim: `y(t) = e^(-t)`
+- λ = 1 va λ = 1000 uchun test qilish
+
+**Usullar:**
+- Explicit Euler
+- Improved Euler (Midpoint)
+- RK4
+- Adams-Bashforth 2
+
+**Natija:** Stiff problemlarda (λ = 1000) explicit usullar beqaror bo'ladi.
+
+---
+
+### Exercise 2: Embedded RK Scheme for Stiff Problem 🔄
+**Fayl:** `rk_scheme_stiff_problem.py`
+
+**Maqsad:** Exercise 5 dagi adaptive RK4(3) schemani Exercise 1 dagi stiff problem uchun moslashtirish.
+
+#### Roadmap:
+
+**1. Kod strukturasini moslashtirish**
+   - [ ] Exercise 5 dagi `solve_adaptive_rk43_procedure` funksiyasini copy qilish
+   - [ ] `f(y)` formatini `f(t, y, lam)` formatiga o'zgartirish
+   - [ ] Butcher tableau (A_rk4, b_rk4, b_rk3) ni saqlash
+
+**2. Stiff problem uchun f(t, y, λ) funksiyasini yozish**
+   - [ ] `f(t, y, lam)` funksiyasini implement qilish
+   - [ ] Exercise 1 dagi formulani ishlatish: `-lam * (y - exp(-t)) - exp(-t)`
+
+**3. Adaptive RK schemani test qilish**
+   - [ ] λ = 1 uchun test (non-stiff case)
+   - [ ] λ = 1000 uchun test (stiff case)
+   - [ ] Turli h0, epsilon parametrlarini sinab ko'rish
+
+**4. Natijalarni vizualizatsiya qilish**
+   - [ ] Approximate solution (adaptive RK) ni plot qilish
+   - [ ] Exact solution `y(t) = e^(-t)` ni plot qilish
+   - [ ] Ikkalasini bir grafigda ko'rsatish
+   - [ ] Xatolikni (error) alohida plot qilish
+
+**5. Tahlil va observation**
+   - [ ] λ = 1 da adaptive RK qanday ishlaydi?
+   - [ ] λ = 1000 da adaptive RK qanday ishlaydi?
+   - [ ] Step size (h) qanday o'zgaradi?
+   - [ ] Function evaluations soni qancha?
+   - [ ] Explicit RK scheme stiff problemda yaxshi ishlayaptimi?
+
+---
+
+## Kutilayotgan natijalar (Expected Observations)
+
+### λ = 1 (Non-stiff):
+- Adaptive RK yaxshi ishlashi kerak
+- Kichik xatolik
+- Step size barqaror
+
+### λ = 1000 (Stiff):
+- Adaptive RK qiyinchilik ko'rishi mumkin
+- Step size juda kichik bo'lishi kerak (barqarorlik uchun)
+- Ko'p function evaluations kerak bo'ladi
+- Explicit scheme stiff problem uchun samarasiz
+- **Observation:** Stiff problemlar uchun implicit schemes yaxshiroq!
+
+---
+
+## Ishga tushirish (How to Run)
+
+```bash
+# Exercise 1
+python ex_sheet_07/stiff_problem.py
+
+# Exercise 2
+python ex_sheet_07/rk_scheme_stiff_problem.py
 ```
-y'(t) = -λ * y(t) - e^(-t) - e^(-t)
+
+---
+
+## Asosiy farqlar (Key Differences)
+
+| Aspect | Exercise 5 (Van der Pol) | Exercise 7 (Stiff Problem) |
+|--------|-------------------------|---------------------------|
+| ODE format | `f(y)` - autonomous | `f(t, y, λ)` - non-autonomous |
+| Problem type | Non-linear oscillator | Linear stiff problem |
+| Dimension | 2D system | 1D scalar |
+| Exact solution | Yo'q | `y(t) = e^(-t)` |
+| Challenge | Non-linearity | Stiffness |
+
+---
+
+## Foydali formulalar
+
+**Stiff ODE:**
+```
+y'(t) = -λ(y(t) - e^(-t)) - e^(-t)
 y(0) = 1
-t ∈ [0, 1]
 ```
 
-Aniq yechim: `y(t) = e^(-t)`
-
-## Vazifa
-
-4 xil raqamli usul bilan yechimni topish va taqqoslash:
-- λ = 1 (oddiy holat)
-- λ = 1000 (stiff problem - qattiq masala)
-
-## Qadamlar (Roadmap)
-
-### 1. Parametrlarni sozlash
-- Step size: `h = 0.01`
-- Grid points: `t_k = k * h`, k = 0, 1, ..., 100
-- N = 100 (chunki 1/0.01 = 100)
-
-### 2. To'rt usulni implement qilish
-
-#### a) Explicit Euler (eng oddiy)
+**Exact solution:**
 ```
-Y_{k+1} = Y_k + h * f(t_k, Y_k)
-```
-**Tushuntirish**: Har bir qadamda hozirggi qiymat va hosiladan foydalanib keyingi nuqtani topamiz.
-
-#### b) Improved Euler (aniqroq)
-```
-Y_{k+1} = Y_k + h * f(t_k + h/2, Y_k + (h/2) * f(t_k, Y_k))
-```
-**Tushuntirish**: Avval yarim qadamda taxminiy qiymat topamiz, keyin uni ishlatib to'liq qadamni hisoblaymiz.
-
-#### c) Runge-Kutta 4 (RK4) - eng aniq
-```
-K1 = f(t_k, Y_k)
-K2 = f(t_k + h/2, Y_k + (h/2)*K1)
-K3 = f(t_k + h/2, Y_k + (h/2)*K2)
-K4 = f(t_k + h, Y_k + h*K3)
-Y_{k+1} = Y_k + (h/6) * (K1 + 2*K2 + 2*K3 + K4)
-```
-**Tushuntirish**: 4 ta oraliq qiymat hisoblab, ularning o'rtachasidan foydalanadi. Juda aniq lekin ko'proq hisoblash talab qiladi.
-
-#### d) Adams-Bashforth 2 (multi-step)
-```
-Y_{k+1} = Y_k + h * (3/2 * f(t_k, Y_k) - 1/2 * f(t_{k-1}, Y_{k-1}))
-```
-**Tushuntirish**: Oldingi ikki nuqtadan foydalanadi. Y_1 ni topish uchun Explicit Euler ishlatamiz.
-
-### 3. Xatolikni hisoblash
-
-Har bir nuqtada:
-```
-e_k = Y_k - y(t_k) = Y_k - e^(-t_k)
+y(t) = e^(-t)
 ```
 
-Maksimal xatolik:
-```
-E_max = max|e_k| (barcha k lar uchun)
-```
-
-### 4. Natijalarni taqqoslash
-
-**Jadval yaratish**: 4 usul × 2 lambda qiymati = 8 ta E_max qiymati
-
-| Method | λ = 1 | λ = 1000 |
-|--------|-------|----------|
-| Explicit Euler | ? | ? |
-| Improved Euler | ? | ? |
-| RK4 | ? | ? |
-| Adams-Bashforth 2 | ? | ? |
-
-### 5. Grafiklar chizish
-
-Har bir λ uchun:
-- Aniq yechim: `y(t) = e^(-t)` (qizil chiziq)
-- 4 ta raqamli yechim (turli rangda)
-- λ = 1000 da ba'zi usullar beqaror bo'lishi mumkin!
-
-### 6. Tahlil qilish
-
-Kutilayotgan natijalar:
-- **λ = 1**: Barcha usullar yaxshi ishlaydi, RK4 eng aniq
-- **λ = 1000** (stiff!): 
-  - Explicit Euler: JUDA YOMON (beqaror)
-  - Improved Euler: Yomon
-  - RK4: Yaxshiroq lekin hali ham muammoli
-  - Adams-Bashforth: Muammoli
-
-**Stiff problem nima?** λ katta bo'lganda, yechim tez o'zgaradi va oddiy usullar beqaror bo'ladi.
-
-## Kod strukturasi
-
-```python
-import numpy as np
-import matplotlib.pyplot as plt
-
-# 1. f(t, y) funksiyasini aniqlash
-def f(t, y, lam):
-    return -lam * y - np.exp(-t) - np.exp(-t)
-
-# 2. Aniq yechim
-def exact_solution(t):
-    return np.exp(-t)
-
-# 3. Har bir usulni implement qilish
-def explicit_euler(f, y0, t_grid, lam):
-    # ...
-    
-def improved_euler(f, y0, t_grid, lam):
-    # ...
-    
-def rk4(f, y0, t_grid, lam):
-    # ...
-    
-def adams_bashforth_2(f, y0, t_grid, lam):
-    # ...
-
-# 4. Xatolikni hisoblash
-def compute_max_error(numerical, exact):
-    return np.max(np.abs(numerical - exact))
-
-# 5. Natijalarni chiqarish va grafik chizish
-```
-
-## Muhim eslatmalar
-
-- `h = 0.01` juda kichik, shuning uchun λ = 1 da hammasi yaxshi ishlaydi
-- λ = 1000 da explicit usullar beqaror bo'ladi (grafiklarda ko'rasiz)
-- Stiff problemlar uchun implicit usullar kerak (masalan, Backward Euler)
-
-Omad! 🚀
+**Stability region:** Explicit RK4 ning stability region cheklangan, shuning uchun stiff problemlarda (katta λ) juda kichik step size kerak.
