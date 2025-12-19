@@ -6,10 +6,16 @@
 ## 📋 Quick Reference
 
 ### Core Topics Priority
-1. **One-Step Methods** (Euler, RK methods)
-2. **Multi-Step Methods** (Adams, BDF)
-3. **Stiff Problems & A-Stability** ⚠️ **CRITICAL**
-4. **Geometric Integration** (Hamiltonian systems)
+1. **One-Step Methods** (Euler, RK methods) + Exercise Sheets 1-4
+2. **Multi-Step Methods** (Adams, BDF) + Exercise Sheets 5-8  
+3. **Stiff Problems & A-Stability** ⚠️ **CRITICAL** + Exercise Sheets 9-10
+4. **Geometric Integration** (Hamiltonian systems) + Exercise Sheets 11-12
+
+### Study Strategy: 60% Theory + 40% Exercise Sheets
+**Why Exercise Sheets Matter:**
+- Exercise sheets = Professor's exam blueprint
+- Problems you solve = Questions you can answer  
+- Solutions you explain = Oral exam preparation
 
 ### Must-Know Theorems
 - Picard-Lindelöf (existence/uniqueness)
@@ -19,9 +25,31 @@
 
 ---
 
+## 🎯 Exercise Sheet Collection Strategy
+
+### MUST DO (High Exam Probability)
+- ✅ **Sheet 3** (RK methods) - you have this
+- **Sheet on Multi-step** (Adams, null stability)
+- **Sheet on A-stability** (stability regions, BDF)
+- **Sheet on Hamiltonian** systems
+
+### SHOULD DO
+- Sheet on step-size control
+- Sheet on stiff problems applications  
+- Sheet on convergence proofs
+
+### Exercise Sheet Timeline
+- **By Jan 5:** Complete Sheets 1-4 (one-step, RK, basic)
+- **By Jan 12:** Complete Sheets 5-8 (multi-step, stability)
+- **By Jan 19:** Complete Sheets 9-12 (stiff, geometric)
+- **Jan 20-26:** Redo ALL marked problems
+- **Final week:** Random spot checks + oral explanations
+
+---
+
 ## 📅 6-Week Study Schedule
 
-### Week 1 (Dec 23-29): One-Step Methods Foundation
+### Week 1 (Dec 23-29): One-Step Methods + Exercise Practice
 
 #### Days 1-2: Core Theory (Ch 1.1-1.2.1)
 **Focus Areas:**
@@ -31,15 +59,13 @@
 - **One-step structure:** `Y_{k+1} = Y_k + h_k Φ(...)`
 
 **Key Definitions:**
-- Consistency
-- Stability  
-- Convergence
+- Consistency, Stability, Convergence
 
 #### Days 3-4: Runge-Kutta Methods (Ch 1.2.2)
 **Essential Methods (memorize):**
 - **Explicit Euler** (order 1)
-- **Improved Euler/Runge** (order 2)
-- **Classical RK4** (order 4)
+- **Improved Euler/Runge** (order 2)  
+- **Classical RK4** (order 4) - **MEMORIZE BUTCHER TABLEAU**
 
 **Theory:**
 - Butcher tableau notation
@@ -47,12 +73,44 @@
 - Order conditions (Theorem 1.42)
 - **First Dahlquist Barrier:** explicit RK of s stages has max order s
 
-#### Day 5: Adaptive Step Size (Ch 1.2.3)
-- Richardson extrapolation
-- Embedded RK methods (DOPRI5)
-- Step size control: `s = (hε/||Y - Ŷ||)^{1/q}`
+#### Day 5: 🎯 **EXERCISE SESSION 1** - Sheet 3 Deep Dive (3 hours)
 
-### Week 2 (Dec 30 - Jan 5): Multi-Step Methods
+**Exercise 1: Consistency Condition ⭐**
+```
+Goal: Prove Σb_i = 1 for RK consistency
+Key Steps:
+1. Start: lim_{h→0} max_k ||f(t_k, y(t_k)) - Φ(t_k, y(t_k), h_k)|| = 0
+2. Use: Φ(t,y,h) = Σ b_i K_i(t,y,h)  
+3. Apply continuity: lim_{h→0} K_i(t,y,h) = f(t,y)
+4. Conclude: Need Σb_i = 1
+
+Exam Relevance: HIGH - Shows you understand consistency
+```
+
+**Exercise 2: RK4 Analysis ⭐⭐⭐**
+```
+Part a) RK4 Butcher Tableau (MEMORIZE):
+0   |  0    0    0    0
+1/2 | 1/2   0    0    0  
+1/2 |  0   1/2   0    0
+1   |  0    0    1    0
+----+------------------
+    | 1/6  1/3  1/3  1/6
+
+Part b) Stability Function R(z) for RK4:
+For y' = λy, compute K_1, K_2, K_3, K_4
+Result: R(z) = 1 + z + z²/2 + z³/6 + z⁴/24
+Compare to e^z Taylor series → Order 4 confirmed!
+
+Exam Relevance: VERY HIGH - Classic oral exam question
+```
+
+**Programming Exercise Understanding:**
+- Skip coding if time short
+- BUT understand logistic equation behavior
+- Know what happens with different step sizes h
+
+### Week 2 (Dec 30 - Jan 5): Multi-Step Methods + Exercise Practice
 
 #### Days 6-7: Simple Multi-Step (Ch 1.3.1)
 - **Adams-Bashforth** (explicit, order m)
@@ -66,6 +124,30 @@
 - **Null stability:** roots satisfy `|z_i| ≤ 1`, simple on unit circle
 - **Assumption (S)** and equivalence to null stability
 - **KEY RESULT:** Consistency + Null stability ⇒ Convergence
+
+#### Day 10: 🎯 **EXERCISE SESSION 2** - Multi-Step Practice (3 hours)
+
+**Typical Exercise Types:**
+```
+Type 1: Adams Method Implementation
+- Derive Adams-Bashforth for m=2,3
+- Derive Adams-Moulton for m=2,3
+- Compare stability regions
+
+Type 2: Null Stability Check
+Given coefficients [a_0, a_1, ..., a_m]:
+1. Form ρ(z) = Σa_j z^{m-j}
+2. Find roots of ρ(z) = 0
+3. Check |z_i| ≤ 1 and simple on unit circle
+4. Conclude null stability
+
+Type 3: Order Verification
+- Use Taylor expansion method
+- Match coefficients with exact solution
+- Determine highest order achieved
+
+Exam Bridge: "Check null stability of this 3-step method"
+```
 
 ### Week 3 (Jan 6-12): Stiff Problems ⚠️ **EXAM CRITICAL**
 
