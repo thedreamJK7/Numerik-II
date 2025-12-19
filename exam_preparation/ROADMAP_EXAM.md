@@ -149,9 +149,9 @@ Type 3: Order Verification
 Exam Bridge: "Check null stability of this 3-step method"
 ```
 
-### Week 3 (Jan 6-12): Stiff Problems ⚠️ **EXAM CRITICAL**
+### Week 3 (Jan 6-12): Stiff Problems + Critical Exercises ⚠️
 
-#### Days 10-11: A-Stability (Ch 1.4.1)
+#### Days 11-12: A-Stability (Ch 1.4.1)
 **Essential Understanding:**
 - **Stiff ODEs** - why explicit methods fail
 - **Model problem:** `y' = λy` with `Re(λ) ≤ 0`
@@ -163,67 +163,242 @@ Exam Bridge: "Check null stability of this 3-step method"
 - **Implicit Euler** - A-stable (know proof!)
 - **Trapezoidal rule** - A-stable
 
-#### Days 12-13: Important Implicit Methods
+#### Days 13-14: Important Implicit Methods
 **Gaussian Methods:**
 - Theorem 1.111: ALL are A-stable, order 2s
 
 **BDF Methods:**
 - Orders m=1,2: A-stable
-- Orders m=3,4,5,6: A(α)-stable
+- Orders m=3,4,5,6: A(α)-stable  
 - m>6: NOT null-stable!
 
 **L-stability:** `R(∞) = 0` (strong damping)
 
-#### Day 14: Computational Aspects (Ch 1.4.2)
-- DIRK/SDIRK schemes
-- Newton iteration for implicit methods
-- Why implicit methods needed for stiff problems
+#### Day 15: 🎯 **EXERCISE SESSION 3** - Stiff Problems (3 hours)
 
-### Week 4 (Jan 13-19): Geometric Integration
+**Type 1: Stability Region Analysis**
+```
+Classic θ-method Exercise:
+Y_{k+1} = Y_k + h[(1-θ)f(t_k, Y_k) + θf(t_{k+1}, Y_{k+1})]
 
-#### Days 15-16: Hamiltonian Systems (Ch 2.1)
+Tasks:
+a) Find R(z) for test equation y' = λy
+   Answer: R(z) = (1 + (1-θ)z)/(1 - θz)
+   
+b) For what θ is method A-stable?
+   Answer: θ ≥ 1/2
+   
+c) Special cases:
+   θ=0: Explicit Euler (not A-stable)
+   θ=1/2: Trapezoidal rule (A-stable)  
+   θ=1: Implicit Euler (A-stable, L-stable)
+
+Exam Relevance: GUARANTEED oral exam topic
+```
+
+**Type 2: BDF Method Analysis**
+```
+Tasks:
+- Derive BDF2: Y_{k+1} = (4Y_k - Y_{k-1})/3 + (2h/3)f_{k+1}
+- Check null stability of characteristic polynomial
+- Verify order 2
+- Show A-stability using R(z)
+
+Red Flag: "Derive and analyze BDF method of order m"
+```
+
+### Week 4 (Jan 13-19): Geometric Integration + Exercise Practice
+
+#### Days 16-17: Hamiltonian Systems (Ch 2.1)
 **Core Concepts:**
 - **Hamiltonian:** `H(p,q)`, `p' = -H_q`, `q' = H_p`
 - **Energy conservation:** H is first integral (Lemma 2.9)
 - **Symplectic transformation:** `A^T J A = J`
 - **Flow is symplectic** (Theorem 2.14 - Poincaré)
 
-#### Day 17: Symplectic Methods (Ch 2.2)
-**Methods:**
+#### Day 18: 🎯 **EXERCISE SESSION 4** - Geometric Methods (2 hours)
+
+**Classic Pendulum Exercise:**
+```
+Hamiltonian: H(p,q) = p²/2 + (1 - cos q)
+
+Tasks:
+a) Write Hamilton's equations:
+   p' = -H_q = -sin q
+   q' = H_p = p
+
+b) Apply Symplectic Euler:
+   Method I:  p_{k+1} = p_k - h·sin(q_k)
+              q_{k+1} = q_k + h·p_{k+1}
+   
+   Method II: q_{k+1} = q_k + h·p_k  
+              p_{k+1} = p_k - h·sin(q_{k+1})
+
+c) Show energy oscillates (bounded) vs. drifts (non-symplectic)
+
+Exam Relevance: If Hamiltonian covered, often asked
+```
+
+**Symplecticity Verification:**
+```
+Task: Show method is symplectic (A^T J A = J)
+
+Example: Symplectic Euler I
+Jacobian: A = [1    0  ]
+              [-h   1  ]
+
+Check: A^T J A = [1  -h] [0   1] [1    0 ]
+                  [0   1] [-1  0] [-h   1]
+               = [0   1] = J ✓
+                 [-1  0]
+
+Red Flag: "Verify this method preserves symplecticity"
+```
+
+#### Day 19: Symplectic Methods Theory (Ch 2.2)
 - Symplectic Euler I & II
 - **Störmer-Verlet/Leapfrog** (order 2, symplectic)
 - Why symplectic methods preserve energy better
 
-### Week 5 (Jan 20-26): Review & Practice
+---
 
-#### Days 18-19: Essential Theorems
-**Must Know Proofs:**
-1. Picard-Lindelöf (existence/uniqueness)
-2. Stability + Consistency ⇒ Convergence
-3. Null stability ⇔ Assumption (S)
-4. First Dahlquist barrier
-5. Second Dahlquist barrier (A-stable multi-step order ≤ 2)
-6. Gaussian methods are A-stable
-7. Flow of Hamiltonian is symplectic
+## 📝 Exercise Sheet Mastery Strategy
 
-#### Days 20-21: Proof Techniques Practice
-**Standard Proofs:**
-- Gronwall Lemma applications
-- Stability estimates (Theorems 1.24, 1.27)
-- A-stability of implicit Euler using R(z)
-- Symplectic Euler is symplectic (Theorem 2.23)
+### 3-Pass Method for Maximum Efficiency
 
-### Week 6 (Jan 27 - Feb 2): Problem Solving
+#### Pass 1: Initial Attempt (60 min per sheet)
+- Try each problem for 10-15 minutes
+- Mark results: ✅ (solved), ❓ (struggled), ❌ (stuck)
+- **Don't look at solutions yet!**
+- Focus on understanding what's being asked
 
-**Work Through Key Examples:**
-- Example 1.17: Euler vs Improved Euler convergence
-- Example 1.31: perturbation effects
-- Example 1.73: non null-stable method diverges
-- Example 2.28: Hamiltonian system energy preservation
+#### Pass 2: Theory-Informed Retry (45 min per sheet)  
+- Review ❓ and ❌ problems with notes/script
+- Apply theoretical knowledge to stuck problems
+- Now check solutions or ask TA for help
+- Understand the solution approach completely
+
+#### Pass 3: Mastery Check (30 min per sheet)
+- Redo all ❌ problems from memory
+- Ensure ✅ problems can be solved quickly
+- Create summary of key techniques used
+- Practice explaining solutions out loud
+
+### Exercise → Exam Question Bridge
+
+**How Sheet Problems Become Oral Questions:**
+
+| Exercise Sheet Topic | Becomes Exam Question |
+|---------------------|----------------------|
+| "Show Y_{k+1} = [1 + hλ + ...]Y_k for RK4" | "Derive stability function for RK4" |
+| "Check null stability of coefficients" | "Is this 3-step method stable?" |
+| "Verify method is A-stable" | "Show implicit Euler is A-stable" |
+| "Show method is symplectic" | "Verify symplecticity of this scheme" |
+
+### Red Flag Exercises (High Exam Probability)
+- **Butcher tableau derivation** → Guaranteed exam topic
+- **Null stability verification** → Very common  
+- **A-stability proof** → Classic oral question
+- **Symplecticity verification** → If covered, often asked
+- **Method comparison** → Oral exam favorite
 
 ---
 
-## 🎯 Absolute Must-Knows for Oral Exam
+## 🎯 Mock Exam Sessions
+
+### Week Before Exam (Feb 9-10): 40-Minute Simulations
+
+**Sample Mock Exam Structure:**
+```
+Time: 40 minutes total
+Format: Explain solutions OUT LOUD
+
+Problem Set:
+• 10 min: Derive RK2 Butcher tableau + verify order
+• 10 min: Check null stability of Adams 3-step method  
+• 12 min: Prove implicit Euler is A-stable using R(z)
+• 8 min: Show symplectic Euler preserves symplecticity
+
+Practice Phrases:
+- "The key idea here is..."
+- "This connects to Theorem X because..."
+- "The intuition behind this is..."
+```
+
+### Exercise Sheet Collection Priority
+
+**MUST HAVE (Get These First):**
+1. ✅ Sheet 3 (RK methods) - you have this
+2. Multi-step methods sheet (Adams, BDF, null stability)
+3. A-stability sheet (stability regions, stiff problems)  
+4. Hamiltonian systems sheet (if covered in course)
+
+**SHOULD HAVE:**
+5. Step-size control and adaptivity
+6. Convergence theory and proofs
+7. Stiff problem applications
+
+**Sources to Check:**
+- Ask TA/classmates for complete collection
+- Course website/learning management system
+- Previous year students (if available)
+- Study group sharing
+
+---
+
+## 🔄 Week 5 (Jan 20-26): Intensive Review + Problem Mastery
+
+### Days 20-21: Essential Theorems Review
+**Must Know Proofs:**
+1. **Picard-Lindelöf** (existence/uniqueness)
+2. **Stability + Consistency ⇒ Convergence** (fundamental result)
+3. **Null stability ⇔ Assumption (S)** (multi-step methods)
+4. **First Dahlquist barrier** (explicit RK order limit)
+5. **Second Dahlquist barrier** (A-stable multi-step order ≤ 2)
+6. **Gaussian methods are A-stable** (all orders)
+7. **Flow of Hamiltonian is symplectic** (Poincaré theorem)
+
+### Days 22-23: Proof Techniques Practice
+**Standard Proof Patterns:**
+- **Gronwall Lemma applications** (stability estimates)
+- **Stability estimates** (Theorems 1.24, 1.27)
+- **A-stability using R(z)** (complex analysis approach)
+- **Symplectic verification** (matrix algebra, Theorem 2.23)
+
+### Days 24-26: 🔁 **REDO ALL MARKED PROBLEMS**
+**Systematic Review:**
+- Revisit every ❓ and ❌ from all exercise sheets
+- Can you solve them without notes now?
+- Practice explaining each solution out loud
+- Create one-page summaries of solution techniques
+
+**Daily Goal:** Master 4-5 previously difficult problems per day
+
+---
+
+## 📚 Week 6 (Jan 27 - Feb 2): Problem Solving + Script Examples
+
+### Key Script Examples to Master
+- **Example 1.17:** Euler vs Improved Euler convergence rates
+- **Example 1.31:** Perturbation effects on stability
+- **Example 1.73:** Non null-stable method diverges (crucial example!)
+- **Example 2.28:** Hamiltonian system energy preservation
+
+### Daily Practice Routine
+- **Morning (2h):** Review one major topic from script
+- **Afternoon (2h):** Work through 3-4 exercise problems
+- **Evening (1h):** Practice explaining concepts aloud
+
+### Random Exercise Spot Checks
+**Daily Challenge:**
+- Pick 2 random problems from any completed sheet
+- Solve from scratch in 20 minutes total
+- Explain solution as if in oral exam
+- Identify which theorem/concept is being tested
+
+**Success Metric:** Can solve 80% of random problems confidently
+
+---
 
 ### Concepts You Must Explain
 - **Lipschitz continuity** → uniqueness
